@@ -5,7 +5,7 @@ from langchain_core.tools import StructuredTool
 from langgraph.checkpoint.postgres import PostgresSaver
 from psycopg import connect
 from sqlalchemy import text
-from expense_tracker.database import get_db, Expenses
+from .database import get_db, Expenses
 from sqlalchemy.orm import Session
 import os
 from dotenv import load_dotenv
@@ -276,6 +276,7 @@ You are an intelligent and conversational Expense Assistant connected to a Postg
         checkpointer=saver
     )
     return agent
+
 
 
 
