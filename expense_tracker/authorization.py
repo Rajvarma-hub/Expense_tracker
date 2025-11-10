@@ -33,24 +33,24 @@ from random import randint
 from datetime import datetime,timedelta
 reddis_url=os.getenv("REDDIS_URL")
 try:
-    reddis.from_url(reddis_url,decode_response=True)
+    redis.from_url(reddis_url,decode_response=True)
 except Exception as e:
     print(f"Could not connect to Reddis{e}")
 
 def generate_otp(email:str,expire_minutes:int=5):
     otp = randint(100000, 999999) 
     reddis_key=f"otp:{email}"
-    reddis.setex(reddis_key,timedelta(minutes=expire_minutes),otp)
+    redis.setex(reddis_key,timedelta(minutes=expire_minutes),otp)
     return otp
 
 def verify_otp(email:str,otp_input:int):
    reddis_key=f"otp:{email}"
-   stored_otp=reddis.get(reddis_key)
+   stored_otp=redis.get(reddis_key)
    if not stored_otp:
     return False
    if str(stored_otp)!=str(otp_input):
      return False
-   reddis.delete(reddis_key)
+   redis.delete(reddis_key)
    return True
 
 def otp_email_body(email: str, otp: int, expiry_minutes: int = 5):
@@ -84,4 +84,5 @@ def send_otp_email(to_email:str,otp:int):
      with smtplib.SMTP_SSL('smtp.gmail.com',465) as server:
          server.login(send_email,send_password)
          server.send_message(msg)
+
 
