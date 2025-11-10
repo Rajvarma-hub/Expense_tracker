@@ -3,7 +3,7 @@ from datetime import timedelta, datetime
 from jose import JWTError, jwt
 from fastapi import HTTPException, status, Depends
 import os
-import reddis
+import redis
 from dotenv import load_dotenv
 load_dotenv()
 algorithm =os.getenv("algorithm")
@@ -84,3 +84,4 @@ def send_otp_email(to_email:str,otp:int):
      with smtplib.SMTP_SSL('smtp.gmail.com',465) as server:
          server.login(send_email,send_password)
          server.send_message(msg)
+
