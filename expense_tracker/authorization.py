@@ -38,7 +38,7 @@ r = None
 
 try:
     # Assign the connected client to the global variable 'r'
-    r = redis.from_url(redis_url, decode_response=True)
+    r = redis.from_url(redis_url, decode_responses=True)
     # Ping Redis to verify connection
     r.ping() 
     print("Successfully connected to Redis.")
@@ -108,3 +108,4 @@ def send_otp_email(to_email:str,otp:int):
       with smtplib.SMTP_SSL('smtp.gmail.com',465) as server:
           server.login(send_email,send_password)
           server.send_message(msg)
+
