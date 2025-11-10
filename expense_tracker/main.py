@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import and_,or_
 from langchain_core.messages import HumanMessage
 from jose import JWTError,jwt
-from expense_tracker.database import get_db, User, Expenses, UserCreate,chat, AddExpense, ExpenseOut, Base, engine,update_expenses,Messages,Delete_Multiple,RegisterStep1,RegisterStep2
+from database import get_db, User, Expenses, UserCreate,chat, AddExpense, ExpenseOut, Base, engine,update_expenses,Messages,Delete_Multiple,RegisterStep1,RegisterStep2
 from authorization import hash_password, verify_password, create_access_token,secret_key,algorithm,generate_otp,send_otp_email,verify_otp
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 import os
