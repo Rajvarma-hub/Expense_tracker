@@ -5,8 +5,13 @@ from fastapi import HTTPException, status, Depends
 import os
 import redis
 from dotenv import load_dotenv
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from random import randint
+
 load_dotenv()
-algorithm =os.getenv("algorithm")
+algorithm = os.getenv("algorithm")
 secret_key = os.getenv("secret_key")
 
 pwd_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
@@ -26,32 +31,51 @@ def create_access_token(user_id: int, expire_time: int = 30) -> str:
     token = jwt.encode(payload, secret_key, algorithm=algorithm)
     return token
 
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from random import randint
-from datetime import datetime,timedelta
-reddis_url=os.getenv("REDDIS_URL")
+# --- REDIS CONNECTION AND OTP LOGIC ---
+redis_url = os.getenv("REDIS_URL")
+# Initialize client variable to None
+r = None 
+
 try:
-    redis.from_url(reddis_url,decode_response=True)
+    # Assign the connected client to the global variable 'r'
+    r = redis.from_url(redis_url, decode_response=True)
+    # Ping Redis to verify connection
+    r.ping() 
+    print("Successfully connected to Redis.")
 except Exception as e:
-    print(f"Could not connect to Reddis{e}")
+    # Corrected log message
+    print(f"Could not connect to Redis: {e}")
 
 def generate_otp(email:str,expire_minutes:int=5):
+    # Check if client 'r' is defined and connected
+    if r is None:
+        raise Exception("Redis client is not connected.")
+
     otp = randint(100000, 999999) 
-    reddis_key=f"otp:{email}"
-    redis.setex(reddis_key,timedelta(minutes=expire_minutes),otp)
+    redis_key = f"otp:{email}"
+    # Use the client instance 'r' for setex
+    r.setex(redis_key, timedelta(minutes=expire_minutes), otp)
     return otp
 
 def verify_otp(email:str,otp_input:int):
-   reddis_key=f"otp:{email}"
-   stored_otp=redis.get(reddis_key)
-   if not stored_otp:
-    return False
-   if str(stored_otp)!=str(otp_input):
-     return False
-   redis.delete(reddis_key)
-   return True
+    # If the client is not connected, verification automatically fails
+    if r is None:
+        return False
+        
+    redis_key = f"otp:{email}"
+    # Use the client instance 'r' for get
+    stored_otp = r.get(redis_key)
+    
+    if not stored_otp:
+        return False
+        
+    if str(stored_otp) != str(otp_input):
+        return False
+        
+    # Use the client instance 'r' for delete
+    r.delete(redis_key)
+    return True
+# --- END REDIS LOGIC ---
 
 def otp_email_body(email: str, otp: int, expiry_minutes: int = 5):
     return f"""
@@ -72,17 +96,15 @@ def otp_email_body(email: str, otp: int, expiry_minutes: int = 5):
     """
 
 def send_otp_email(to_email:str,otp:int):
-     send_email=os.getenv("send_email")
-     send_password=os.getenv("send_password")
-     body=otp_email_body(to_email,otp)
-     msg=MIMEMultipart()
-     msg['From']=send_email
-     msg['To']=to_email
-     msg['Subject']="Your OTP Code"
-     msg.attach(MIMEText(body,'html'))
+      send_email=os.getenv("send_email")
+      send_password=os.getenv("send_password")
+      body=otp_email_body(to_email,otp)
+      msg=MIMEMultipart()
+      msg['From']=send_email
+      msg['To']=to_email
+      msg['Subject']="Your OTP Code"
+      msg.attach(MIMEText(body,'html'))
 
-     with smtplib.SMTP_SSL('smtp.gmail.com',465) as server:
-         server.login(send_email,send_password)
-         server.send_message(msg)
-
-
+      with smtplib.SMTP_SSL('smtp.gmail.com',465) as server:
+          server.login(send_email,send_password)
+          server.send_message(msg)
