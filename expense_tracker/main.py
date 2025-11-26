@@ -61,7 +61,7 @@ def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
 
 
 @app.post("/register")
-def register_user(data: RegisterStep1, db: Session = Depends(get_db)):
+def register_user(data: UserCreate, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == data.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
