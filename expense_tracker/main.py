@@ -61,32 +61,15 @@ def login(form: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get
 
 
 @app.post("/register")
-def register_send_otp(data: RegisterStep1, db: Session = Depends(get_db)):
+def register_user(data: RegisterStep1, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == data.email).first()
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
-    
-    otp = generate_otp(data.email)
-    send_otp_email(data.email, otp)
-    return {"message": f"OTP sent to {data.email}. It expires in 5 minutes."}
-
-
-@app.post("/register/verify")
-def verify_and_register(data: RegisterStep2, db: Session = Depends(get_db)):
-    if not verify_otp(data.email, data.otp):
-        raise HTTPException(status_code=400, detail="Invalid or expired OTP")
-    
- 
-    existing_user = db.query(User).filter(User.email == data.email).first()
-    if existing_user:
-        raise HTTPException(status_code=400, detail="User already registered")
-    
     new_user = User(email=data.email, password=hash_password(data.password))
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
-    
-    return {"message": "Registration complete!", "email": new_user.email}
+
 
 
 @app.post("/addexpense", response_model=AddExpense)
