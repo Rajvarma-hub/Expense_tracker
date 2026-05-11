@@ -18,13 +18,13 @@ pipeline {
 
         stage('Tag Backend Image') {
             steps {
-                sh 'docker tag backend:latest $BACKEND_ECR:latest'
+                sh 'docker tag expense-tracker-pipeline-backend:latest $BACKEND_ECR:latest'
             }
         }
 
         stage('Tag Frontend Image') {
             steps {
-                sh 'docker tag frontend:latest $FRONTEND_ECR:latest'
+                sh 'docker tag expense-tracker-pipeline-frontend:latest $FRONTEND_ECR:latest'
             }
         }
 
@@ -39,6 +39,5 @@ pipeline {
                 sh 'docker push $FRONTEND_ECR:latest'
             }
         }
-
     }
 }
