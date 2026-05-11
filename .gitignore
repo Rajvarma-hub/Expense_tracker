@@ -1,0 +1,15 @@
+# Terraform
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/*.tfstate
+terraform/*.tfstate.backup
+
+# Python
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# Docker
+*.log
