@@ -5,7 +5,7 @@ from sqlalchemy import and_,or_
 from langchain_core.messages import HumanMessage
 from jose import JWTError,jwt
 from database import get_db, User, Expenses, UserCreate,chat, AddExpense, ExpenseOut, Base, engine,update_expenses,Messages,Delete_Multiple
-from projects.fastapi.expense_tracker.backend.authorization import hash_password, verify_password, create_access_token,SECRET_KEY,ALGORITHM
+from authorization import hash_password, verify_password, create_access_token, SECRET_KEY, ALGORITHM
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 import os
 from dotenv import load_dotenv
