@@ -9,3 +9,4 @@ output "frontend_ecr_url" {
 output "cluster_name" {
   value = aws_eks_cluster.main.name
 }
+
