@@ -1,41 +1,14 @@
 pipeline {
 agent any
+
+```
 environment {
     AWS_REGION = 'ap-south-1'
+    BACKEND_ECR = credentials('BACKEND_ECR')
+    FRONTEND_ECR = credentials('FRONTEND_ECR')
 }
 
 stages {
-
-    stage('Initialize Terraform') {
-        steps {
-            sh '''
-            cd terraform
-            terraform init
-            '''
-        }
-    }
-
-    stage('Get Terraform Outputs') {
-        steps {
-            script {
-                env.BACKEND_ECR = sh(
-                    script: '''
-                    cd terraform
-                    terraform output -raw backend_ecr_url
-                    ''',
-                    returnStdout: true
-                ).trim()
-
-                env.FRONTEND_ECR = sh(
-                    script: '''
-                    cd terraform
-                    terraform output -raw frontend_ecr_url
-                    ''',
-                    returnStdout: true
-                ).trim()
-            }
-        }
-    }
 
     stage('Build Containers') {
         steps {
@@ -73,6 +46,6 @@ stages {
         }
     }
 }
-
+```
 
 }
