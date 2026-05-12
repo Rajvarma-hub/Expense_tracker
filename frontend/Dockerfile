@@ -4,6 +4,11 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+
+# Vite bakes VITE_* at build time; override in CI: docker build --build-arg VITE_API_URL=...
+ARG VITE_API_URL=http://a51679cab9c6e4ba3bf73f5a4c390061-1510549535.ap-south-1.elb.amazonaws.com
+ENV VITE_API_URL=$VITE_API_URL
+
 RUN npm run build
 
 FROM nginx:1.27-alpine
