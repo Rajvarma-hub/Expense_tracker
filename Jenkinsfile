@@ -20,7 +20,7 @@ stages {
 
     stage('Build Containers') {
         steps {
-           sh 'docker-compose build --no-cache'
+           sh 'docker-compose build'
         }
     }
 
