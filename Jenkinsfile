@@ -3,12 +3,25 @@ pipeline {
 
     environment {
         AWS_REGION = 'ap-south-1'
-
-        BACKEND_ECR = '299139630689.dkr.ecr.ap-south-1.amazonaws.com/expense-backend'
-        FRONTEND_ECR = '299139630689.dkr.ecr.ap-south-1.amazonaws.com/expense-frontend'
     }
 
     stages {
+
+        stage('Get Terraform Outputs') {
+            steps {
+                script {
+                    env.BACKEND_ECR = sh(
+                        script: "cd terraform && terraform output -raw backend_ecr_url",
+                        returnStdout: true
+                    ).trim()
+
+                    env.FRONTEND_ECR = sh(
+                        script: "cd terraform && terraform output -raw frontend_ecr_url",
+                        returnStdout: true
+                    ).trim()
+                }
+            }
+        }
 
         stage('Build Containers') {
             steps {
@@ -37,6 +50,12 @@ pipeline {
         stage('Push Frontend Image') {
             steps {
                 sh 'docker push $FRONTEND_ECR:latest'
+            }
+        }
+
+        stage('Deploy To Kubernetes') {
+            steps {
+                sh 'kubectl apply -f k8s/'
             }
         }
     }
