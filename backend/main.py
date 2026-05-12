@@ -14,6 +14,7 @@ cors_origin_env = os.getenv("CORS_ORIGIN", "*")
 orging = [o.strip() for o in cors_origin_env.split(',')]
 
 
+
 Base.metadata.create_all(bind=engine)
 
 oauth_scheme = OAuth2PasswordBearer(tokenUrl="token")
