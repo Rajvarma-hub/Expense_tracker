@@ -1,7 +1,6 @@
 pipeline {
 agent any
 
-```
 environment {
     AWS_REGION = 'ap-south-1'
     BACKEND_ECR = credentials('BACKEND_ECR')
@@ -46,6 +45,5 @@ stages {
         }
     }
 }
-```
 
 }
