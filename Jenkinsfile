@@ -6,12 +6,6 @@ environment {
 
 stages {
 
-    stage('Fix Docker Permission') {
-        steps {
-            sh 'chmod 666 /var/run/docker.sock'
-        }
-    }
-
     stage('Initialize Terraform') {
         steps {
             sh '''
