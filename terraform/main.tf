@@ -2,9 +2,6 @@ provider "aws" {
   region = "ap-south-1"
 }
 
-# -----------------------------
-# ECR Repositories
-# -----------------------------
 
 resource "aws_ecr_repository" "backend" {
   name = "expense-backend"
@@ -14,9 +11,6 @@ resource "aws_ecr_repository" "frontend" {
   name = "expense-frontend"
 }
 
-# -----------------------------
-# VPC
-# -----------------------------
 
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
@@ -26,10 +20,6 @@ resource "aws_vpc" "main" {
   }
 }
 
-# -----------------------------
-# Internet Gateway
-# -----------------------------
-
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
@@ -38,9 +28,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 
-# -----------------------------
-# Public Subnets
-# -----------------------------
+
 
 resource "aws_subnet" "public_1" {
   vpc_id                  = aws_vpc.main.id
@@ -64,9 +52,6 @@ resource "aws_subnet" "public_2" {
   }
 }
 
-# -----------------------------
-# Route Table
-# -----------------------------
 
 resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.main.id
@@ -91,9 +76,6 @@ resource "aws_route_table_association" "a2" {
   route_table_id = aws_route_table.public_rt.id
 }
 
-# -----------------------------
-# IAM ROLE FOR EKS CLUSTER
-# -----------------------------
 
 resource "aws_iam_role" "eks_cluster_role" {
   name = "eks-cluster-role"
@@ -115,9 +97,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
 }
 
-# -----------------------------
-# EKS CLUSTER
-# -----------------------------
+
 
 resource "aws_eks_cluster" "main" {
   name     = "expense-cluster"
@@ -135,9 +115,6 @@ resource "aws_eks_cluster" "main" {
   ]
 }
 
-# -----------------------------
-# IAM ROLE FOR NODE GROUP
-# -----------------------------
 
 resource "aws_iam_role" "node_role" {
   name = "eks-node-group-role"
@@ -169,9 +146,6 @@ resource "aws_iam_role_policy_attachment" "ec2_registry_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 }
 
-# -----------------------------
-# EKS NODE GROUP
-# -----------------------------
 
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
