@@ -53,6 +53,12 @@ stages {
             sh 'kubectl apply -f k8s/'
         }
     }
+    stage('Restart Kubernetes Deployments') {
+         steps {
+        sh 'kubectl rollout restart deployment/backend'
+        sh 'kubectl rollout restart deployment/frontend'
+        }
+   }
 }
 
 }
