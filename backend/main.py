@@ -10,6 +10,7 @@ from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 import os
 from dotenv import load_dotenv
 load_dotenv()
+from prometheus_fastapi_instrumentator import Instrumentator
 cors_origin_env = os.getenv("CORS_ORIGIN", "*")
 orging = [o.strip() for o in cors_origin_env.split(',')]
 
@@ -19,7 +20,7 @@ Base.metadata.create_all(bind=engine)
 
 oauth_scheme = OAuth2PasswordBearer(tokenUrl="token")
 app = FastAPI(title="Expense Tracker")
-
+Instrumentator().instrument(app).expose(app)
 
 app.add_middleware(
     CORSMiddleware,
