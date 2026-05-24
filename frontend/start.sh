@@ -5,7 +5,6 @@ echo "Expense Tracker Frontend Starter"
 echo "===================================="
 echo ""
 
-# Check if Node.js is installed
 if ! command -v node &> /dev/null; then
     echo "ERROR: Node.js is not installed or not in PATH"
     echo "Please install Node.js from https://nodejs.org/"
@@ -16,7 +15,6 @@ echo "Node.js version:"
 node --version
 echo ""
 
-# Check if npm is installed
 if ! command -v npm &> /dev/null; then
     echo "ERROR: npm is not installed or not in PATH"
     echo "Please install Node.js (npm comes with it) from https://nodejs.org/"
@@ -27,7 +25,6 @@ echo "npm version:"
 npm --version
 echo ""
 
-# Check if node_modules exists
 if [ ! -d "node_modules" ]; then
     echo "Installing dependencies..."
     echo "This may take a few minutes..."

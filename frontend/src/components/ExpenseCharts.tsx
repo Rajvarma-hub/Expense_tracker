@@ -9,14 +9,14 @@ interface ExpenseChartsProps {
 }
 
 const COLORS = [
-  '#6366f1', // indigo
-  '#8b5cf6', // purple
-  '#ec4899', // pink
-  '#10b981', // emerald
-  '#f59e0b', // amber
-  '#ef4444', // red
-  '#06b6d4', // cyan
-  '#a855f7', // violet
+  '#6366f1',
+  '#8b5cf6',
+  '#ec4899',
+  '#10b981',
+  '#f59e0b',
+  '#ef4444',
+  '#06b6d4',
+  '#a855f7',
 ];
 
 const ExpenseCharts = ({ expenses }: ExpenseChartsProps) => {
@@ -64,7 +64,6 @@ const ExpenseCharts = ({ expenses }: ExpenseChartsProps) => {
   const trendData = useMemo(() => {
     const dayMap = new Map<string, number>();
 
-    // Sort expenses by date
     const sortedExpenses = [...expenses].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     sortedExpenses.forEach((expense) => {
@@ -75,7 +74,6 @@ const ExpenseCharts = ({ expenses }: ExpenseChartsProps) => {
       }
     });
 
-    // Take last 7 days of activity or all if less
     return Array.from(dayMap.entries())
       .map(([date, amount]) => ({ date, amount: Number(amount.toFixed(2)) }));
   }, [expenses]);
@@ -95,7 +93,6 @@ const ExpenseCharts = ({ expenses }: ExpenseChartsProps) => {
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      {/* Category Pie Chart */}
       <div className="glass bg-white/90 dark:bg-gray-800/90 rounded-2xl shadow-xl border border-white/20 overflow-hidden">
         <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20">
           <div className="flex items-center gap-3">
@@ -144,7 +141,6 @@ const ExpenseCharts = ({ expenses }: ExpenseChartsProps) => {
         </div>
       </div>
 
-      {/* Monthly Bar Chart */}
       <div className="glass bg-white/90 dark:bg-gray-800/90 rounded-2xl shadow-xl border border-white/20 overflow-hidden">
         <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
           <div className="flex items-center gap-3">
@@ -204,7 +200,6 @@ const ExpenseCharts = ({ expenses }: ExpenseChartsProps) => {
         </div>
       </div>
 
-      {/* Daily Spending Trend Area Chart */}
       <div className="glass bg-white/90 dark:bg-gray-800/90 rounded-2xl shadow-xl border border-white/20 overflow-hidden lg:col-span-2">
         <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20">
           <div className="flex items-center gap-3">

@@ -48,7 +48,6 @@ const ChatPanel = ({ onClose, onExpenseChange }: ChatPanelProps) => {
         { role: 'assistant', content: response.response },
       ]);
       
-      // Check if the AI response indicates an expense was added, updated, or deleted
       const responseText = response.response.toLowerCase();
       const expenseKeywords = [
         'added',
@@ -75,7 +74,6 @@ const ChatPanel = ({ onClose, onExpenseChange }: ChatPanelProps) => {
         'has been deleted'
       ];
       
-      // Also check user message for add/update/delete intent
       const userMessageLower = userMessage.toLowerCase();
       const userIntentKeywords = ['add', 'create', 'insert', 'save', 'update', 'edit', 'delete', 'remove'];
       const hasUserIntent = userIntentKeywords.some(keyword => 
@@ -87,7 +85,6 @@ const ChatPanel = ({ onClose, onExpenseChange }: ChatPanelProps) => {
       ) || (hasUserIntent && (responseText.includes('success') || responseText.includes('done') || responseText.includes('complete')));
       
       if (hasExpenseChange && onExpenseChange) {
-        // Small delay to ensure backend has processed the change
         setTimeout(() => {
           onExpenseChange();
           toast.success('Expense list refreshed');
@@ -109,7 +106,6 @@ const ChatPanel = ({ onClose, onExpenseChange }: ChatPanelProps) => {
 
   return (
     <div className="fixed right-0 top-0 h-full w-full sm:w-96 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl shadow-2xl z-50 flex flex-col border-l border-white/20">
-      {/* Header */}
       <div className="p-5 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
@@ -131,7 +127,6 @@ const ChatPanel = ({ onClose, onExpenseChange }: ChatPanelProps) => {
         </button>
       </div>
 
-      {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-hide bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
         {messages.map((message, index) => (
           <div
@@ -178,7 +173,6 @@ const ChatPanel = ({ onClose, onExpenseChange }: ChatPanelProps) => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input */}
       <form onSubmit={handleSend} className="p-4 border-t border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-900/50 backdrop-blur-sm">
         <div className="flex gap-2">
           <input

@@ -146,7 +146,7 @@ async def Aichat(req: chat, user_id: int = Depends(get_current_user)):
     agent = get_agent(user_id)
     result = agent.invoke(
         {"messages": [HumanMessage(content=prompt)]},
-        config={"configurable": {"thread_id": user_id}} # <--- thread_id GOES HERE
+        config={"configurable": {"thread_id": user_id}}
     )
     if isinstance(result, dict) and 'messages' in result:
     

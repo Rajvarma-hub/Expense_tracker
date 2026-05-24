@@ -158,9 +158,9 @@ resource "aws_eks_node_group" "main" {
   ]
 
   scaling_config {
-    desired_size =4
-    max_size     =4
-    min_size     =2
+    desired_size =0
+    max_size     =1
+    min_size     =0
   }
 
   instance_types = ["t3.micro"]

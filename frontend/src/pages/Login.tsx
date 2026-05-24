@@ -30,7 +30,6 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
-      {/* Animated Background Shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float"></div>
         <div className="absolute top-40 right-10 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-float" style={{ animationDelay: '2s' }}></div>
@@ -39,7 +38,6 @@ const Login = () => {
 
       <div className="max-w-md w-full relative z-10">
         <div className="glass bg-white/95 dark:bg-gray-900/95 rounded-3xl shadow-2xl p-8 md:p-10 border border-white/20">
-          {/* Decorative Top Element */}
           <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
             <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl shadow-2xl flex items-center justify-center rotate-6 hover:rotate-12 transition-transform duration-300">
               <LogIn className="w-12 h-12 text-white" />

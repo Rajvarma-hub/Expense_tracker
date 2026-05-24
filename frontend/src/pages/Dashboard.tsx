@@ -45,14 +45,12 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-indigo-900 dark:to-purple-900 relative overflow-hidden">
-      {/* Animated Background Elements */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <div className="absolute top-0 right-0 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{ animationDelay: '2s' }}></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-float" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      {/* Header */}
       <header className="relative z-30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-lg border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
@@ -92,7 +90,6 @@ const Dashboard = () => {
       </header>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="glass bg-white/90 dark:bg-gray-800/90 rounded-2xl shadow-xl p-6 border border-white/20 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full blur-3xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
@@ -155,12 +152,10 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Charts Section */}
         <div className="mb-8">
           <ExpenseCharts expenses={expenses} />
         </div>
 
-        {/* Expenses Section */}
         <div className="glass bg-white/90 dark:bg-gray-800/90 rounded-2xl shadow-xl border border-white/20 overflow-hidden">
           <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -196,7 +191,6 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Modals */}
       {showAddModal && (
         <AddExpenseModal
           onClose={() => setShowAddModal(false)}
@@ -218,7 +212,6 @@ const Dashboard = () => {
         />
       )}
 
-      {/* Chat Panel */}
       {showChatPanel && (
         <ChatPanel 
           onClose={() => setShowChatPanel(false)}

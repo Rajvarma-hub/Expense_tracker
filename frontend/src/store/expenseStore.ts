@@ -23,12 +23,10 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
     set({ loading: true, error: null });
     try {
       const expenses = await expenseAPI.getExpenses();
-      // Sort by created_at descending (newest first), fallback to id if created_at is not available
       const sortedExpenses = expenses.sort((a, b) => {
         if (a.created_at && b.created_at) {
           return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
         }
-        // Fallback to id for reverse order (higher id = newer)
         return b.id - a.id;
       });
       set({ expenses: sortedExpenses, loading: false });
@@ -38,14 +36,12 @@ export const useExpenseStore = create<ExpenseState>((set) => ({
   },
   
   addExpense: (expense) => {
-    // Add new expense at the beginning of the list (newest first)
     set((state) => ({ expenses: [expense, ...state.expenses] }));
   },
   
   updateExpense: (id, expense) => {
     set((state) => {
       const updated = state.expenses.map((e) => (e.id === id ? expense : e));
-      // Re-sort after update to maintain newest first order
       return {
         expenses: updated.sort((a, b) => {
           if (a.created_at && b.created_at) {

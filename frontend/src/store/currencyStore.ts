@@ -16,7 +16,6 @@ const getStoredCurrency = (): Currency => {
       const found = CURRENCIES.find(c => c.code === parsed.code);
       if (found) return found;
     } catch (e) {
-      // Invalid stored currency, use default
     }
   }
   return CURRENCIES.find(c => c.code === 'USD') || CURRENCIES[0];
